@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "db:migrate": "sequelize db:migrate",
+    "db:rollback": "sequelize db:migrate:undo",
+    "migration:create": "sequelize migration:create --name"
   },
   "author": "",
   "license": "ISC",
@@ -14,6 +17,11 @@
     "cors": "^2.8.5",
     "envoodoo": "^2.1.1",
     "express": "^4.17.2",
-    "forky": "^1.2.0"
+    "forky": "^1.2.0",
+    "pg": "^8.7.1",
+    "sequelize": "^6.12.2"
+  },
+  "devDependencies": {
+    "sequelize-cli": "^6.3.0"
   }
 }

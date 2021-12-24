@@ -6,6 +6,7 @@ const path = require('path');
 global.__base = path.join(__dirname, '/');
 const envoodoo = require('envoodoo');
 const envFile = path.join(__dirname, ENV + '.env');
+const db = require('./app/models');
 
 
 envoodoo(envFile, async function (e) {
@@ -22,7 +23,13 @@ envoodoo(envFile, async function (e) {
 
   const port = PORT || 3001;
 
-  app.listen(port, function () {
-    console.log(`Listening on port ${port}`);
+
+  db.sequelize.authenticate().then(() => {
+    app.listen(port, function () {
+      console.log(`Listening on port ${port}`);
+      console.log(`Successfully connected to database`);
+    })
+  }).catch(err => {
+    console.error(err);
   })
 })
