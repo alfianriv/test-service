@@ -1,14 +1,25 @@
 'use strict';
 
-const Store = require('../../models/store');
+const Joi = require('joi');
+const db = require('../../models');
 
 module.exports = async (req, res) => {
+  const schema = Joi.object().keys({
+    id: Joi.number().integer().required(),
+    name: Joi.string().required(),
+    managerId: Joi.number().integer(),
+  });
   try {
-    const store = await Store.findOne(req.params.id);
-    const result = await store.update(req.body);
-    return res.json(result);
+    const payload = schema.validate({ ...req.body, id: req.params.id });
+    if (payload.error) {
+      throw new Error(payload.error);
+    }
+    let store = await db.Store.findOne({ id: payload.value.id });
+    await store.update(payload.value);
+    store = await db.Store.findOne({ id: payload.value.id });
+    return res.json({ body: store });
   } catch (error) {
-    console.log(error)
-    return res.status(500).json({ error: error.message });throw new Error(error);
+
+    return res.status(500).json({ error: error.message });
   }
 }

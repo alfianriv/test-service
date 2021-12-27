@@ -14,10 +14,10 @@ module.exports = function (sequelize, DataTypes) {
   }, {
     hooks: {
       beforeCreate: (manager, options) => {
-        manager.name = manager.name.toUpperCase();
+        manager.name = capitalizeStrings(manager.name);
       },
       beforeUpdate: (manager, options) => {
-        manager.name = manager.name.toUpperCase();
+        manager.name = capitalizeStrings(manager.name);
       }
     },
     schema: 'public',
@@ -27,9 +27,18 @@ module.exports = function (sequelize, DataTypes) {
 
   Manager.associate = function (models) {
     Manager.hasMany(models.Store, {
+      foreignKey: 'managerId',
       constraints: false,
     });
   }
 
   return Manager;
+}
+
+const capitalizeStrings = (str) => {
+  const words = str.split(' ');
+  for (let i = 0; i < words.length; i++) {
+    words[i] = words[i][0].toUpperCase() + words[i].slice(1);
+  }
+  return words.join(' ');
 }

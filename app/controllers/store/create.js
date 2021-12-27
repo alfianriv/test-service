@@ -1,13 +1,22 @@
 'use strict';
 
-const Store = require('../../models/store');
+const Joi = require('joi');
+const db = require('../../models');
 
 module.exports = async (req, res) => {
+  const schema = Joi.object().keys({
+    name: Joi.string().required(),
+    managerId: Joi.number().integer().required(),
+  });
   try {
-    const store = await Store.create(req.body);
-    return res.json(store);
+    const payload = await schema.validate(req.body);
+    if (payload.error) {
+      throw new Error(payload.error);
+    }
+    const store = await db.Store.create(payload.value);
+    return res.json({ body: store });
   } catch (error) {
-    console.log(error)
+
     return res.status(500).json({ error: error.message });
   }
 }

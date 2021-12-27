@@ -17,12 +17,13 @@ module.exports = function (sequelize, DataTypes) {
     }
   }, {
     schema: 'public',
-    tableName: 'manager',
+    tableName: 'store',
     paranoid: true
   });
 
   Store.associate = function (models) {
     Store.belongsTo(models.Manager, {
+      foreignKey: 'managerId',
       constraints: false,
     });
   }

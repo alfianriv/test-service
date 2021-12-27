@@ -12,8 +12,8 @@ module.exports = async (req, res) => {
     if (payload.error) {
       throw new Error(payload.error);
     }
-    const store = await db.Store.findOne({ where: { id: payload.value.id }, include: [{ model: db.Manager, as: 'manager' }] });
-    return res.json({ body: store });
+    const manager = await db.Manager.findOne({ where: { id: payload.value.id }, include: [{ model: db.Store, as: 'store' }] });
+    return res.json({ body: manager });
   } catch (error) {
 
     return res.status(500).json({ error: error.message });
