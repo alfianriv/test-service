@@ -14,9 +14,9 @@ module.exports = async (req, res) => {
     if (payload.error) {
       throw new Error(payload.error);
     }
-    let store = await db.Store.findOne({ id: payload.value.id });
+    let store = await db.Store.findOne({ where: { id: payload.value.id } });
     await store.update(payload.value);
-    store = await db.Store.findOne({ id: payload.value.id });
+    store = await db.Store.findOne({ where: { id: payload.value.id } });
     return res.json({ body: store });
   } catch (error) {
 

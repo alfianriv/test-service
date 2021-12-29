@@ -12,7 +12,7 @@ module.exports = async (req, res) => {
     if (payload.error) {
       throw new Error(payload.error);
     }
-    const store = await db.Store.findOne({ where: { id: payload.value.id }, include: [{ model: db.Manager, as: 'manager' }] });
+    const store = await db.Store.findOne({ where: { id: payload.value.id } });
     return res.json({ body: store });
   } catch (error) {
 

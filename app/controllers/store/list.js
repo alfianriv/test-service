@@ -4,7 +4,7 @@ const db = require('../../models');
 
 module.exports = async (req, res) => {
   try {
-    const stores = await db.Store.findAll({ include: [{ model: db.Manager, as: 'manager' }] });
+    const stores = await db.Store.findAll();
     return res.json({ body: stores });
   } catch (error) {
 
