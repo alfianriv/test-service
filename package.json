@@ -3,10 +3,13 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "lint": "echo 'running lint...' && eslint .",
     "start": "node app.js",
     "db:migrate": "sequelize db:migrate",
     "db:rollback": "sequelize db:migrate:undo",
-    "migration:create": "sequelize migration:create --name"
+    "migration:create": "sequelize migration:create --name",
+    "test": "npm run test:setupdb && NODE_ENV=test mocha --recursive --exit",
+    "test:setupdb": "dropdb -U avd -h 127.0.0.1 bridge-test && createdb -U avd -h 127.0.0.1 bridge-test && NODE_ENV=test MONGODB_URL='mongodb://localhost:27017/bridge-mongodb-test' npm run db:migrate"
   },
   "author": "",
   "license": "ISC",
@@ -16,9 +19,11 @@
     "compression": "^1.7.4",
     "cors": "^2.8.5",
     "envoodoo": "^2.1.1",
+    "eslint": "^8.6.0",
     "express": "^4.17.2",
     "forky": "^1.2.0",
     "joi": "^17.5.0",
+    "mocha": "^9.1.3",
     "pg": "^8.7.1",
     "sequelize": "^6.12.2"
   },

@@ -7,7 +7,8 @@ global.__base = path.join(__dirname, '/');
 const envoodoo = require('envoodoo');
 const envFile = path.join(__dirname, ENV + '.env');
 const db = require('./app/models');
-
+const express = require('express');
+const app = express();
 
 envoodoo(envFile, async function (e) {
   if (e) throw e;
@@ -15,9 +16,6 @@ envoodoo(envFile, async function (e) {
   const {
     PORT
   } = process.env;
-
-  const express = require('express');
-  const app = express();
 
   require('./config/express')(app);
 
@@ -33,3 +31,7 @@ envoodoo(envFile, async function (e) {
     console.error(err);
   })
 })
+
+module.exports = {
+  app
+}
